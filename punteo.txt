@@ -1,0 +1,12 @@
+PCA
+- Centrar en 0 (done)
+- Hacer kmeans y dsp PCA para visualizar
+Covarianza
+- Imprimir matriz de covarianza y analizar
+- Ver con covarianza que atributos estan relacionados
+- Deducir desde los vectores propios el numero de atributos a elegir 
+
+Kmeans
+- Bug de centroides vacios 
+- Eficiencia del algoritmo? El tema de estar copiando siempre el DS
+- Experimentar con los 2 metodos de inicialización

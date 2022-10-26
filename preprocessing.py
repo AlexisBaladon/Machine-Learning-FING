@@ -10,3 +10,9 @@ def one_hot_encoding():
 def normalize(): #chiruzzo doesnt approve
     return
 
+def preprocess(dataset):
+    #columns_to_remove = ["affordability","inclusivity_and_tolerance","pos_2021","total_score","city","country"]
+    #columns_to_remove = ["paid_parental_leave","covid_impact","covid_support","healthcare","access_to_mental_healthcare","inclusivity_and_tolerance","affordability","happiness_culture_and_leisure","city_safety","outdoor_spaces","pos_2022","pos_2021","city","country","remote_jobs","overworked_population","minimum_vacations_offered","vacations_taken","unemployment","multiple_jobholders","inflation"]
+    columns_to_remove = ["total_score", "city", "country", "pos_2022", "pos_2021", "covid_impact", "covid_support", "inclusivity_and_tolerance", "air_quality"]
+    dataset = remove_columns(dataset, columns_to_remove)
+    return dataset

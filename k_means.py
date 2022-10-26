@@ -1,7 +1,7 @@
 from multiprocessing.resource_sharer import stop
 import pandas as pd
 import numpy as np
-from constants import DEFAULT_SEED, CLUSTER_COLUMN
+from constants import DEFAULT_SEED, CLUSTER_COLUMN, ITERATION_THRESHOLD
 import random
 
 class KMeans:
@@ -15,31 +15,34 @@ class KMeans:
         else:
             raise Exception("Unrecognized initialization method")
         self.centroids = []
-        self.random_generator = random
+        self.random_generator = random.Random()
         self.random_generator.seed(seed)
+        self.new_centroids = []
 
-    def k_means(self, dataset: pd.DataFrame, number_of_clusters: int, stop_epsilon: float):
-        #  1: Inicializar K centroides aleatoriamente
-        #  2: Mientras no se de la condición de fin:
-        #  3: Asignar cada instancia al centroide más cercano
-        #  4: Recalcular los centroides
-        #  5: Retornar los clusters
-
-        self.centroids = [np.zeros(len(dataset.columns)) for _ in range(number_of_clusters)] # chequear esto luego, deberia andar ok
+    def k_means(self, dataset: pd.DataFrame, number_of_clusters: int, stop_epsilon: float, seed = None):
+        if seed != None:
+            self.random_generator.seed(seed)
+        self.centroids = [np.zeros(len(dataset.columns)) for _ in range(number_of_clusters)]
         clustered_dataset = self.augment_dataset(dataset)
-        self.new_cetroids = self.random_assignment(dataset, number_of_clusters)
-        while not self.__stop_condition(stop_epsilon):
-            self.centroids = self.new_cetroids
-            self.assign_to_cluster(clustered_dataset, self.centroids)
-            self.new_cetroids = self.__calculate_centroids(clustered_dataset)
-        self.centroids = self.new_cetroids
+        self.new_centroids = self.random_assignment(dataset, number_of_clusters)
+        i = 0
+        while not self.__stop_condition(stop_epsilon, i):
+            self.centroids = self.new_centroids
+            self.assign_to_cluster(dataset, clustered_dataset, self.centroids)
+            self.__check_empty_cluster(dataset, clustered_dataset, self.centroids)
+            self.new_centroids = self.__calculate_centroids(clustered_dataset)
+            i += 1
+        self.centroids = self.new_centroids
         return np.array(self.centroids)
+    
+    def __stop_condition(self, stop_epsilon: float, i) -> bool:
+        distance = self.__calculate_distances(self.centroids, self.new_centroids)
+        return i > ITERATION_THRESHOLD or distance < stop_epsilon
 
     def __calculate_distances(self, centroids, new_centroids):
-        #np.sum([np.linalg.norm(x - y) for x in x, y in zip(centroids, new_centroids)])        
-        return np.sum(list(map(self.__calculate_distance, centroids, new_centroids)))
+        return np.sum(list(map(self.calculate_distance, centroids, new_centroids)))
 
-    def __calculate_distance(self, centroid, point):
+    def calculate_distance(self, centroid, point):
         return np.linalg.norm(centroid - point)
 
     def __calculate_centroids(self, dataset: pd.DataFrame):
@@ -52,19 +55,22 @@ class KMeans:
 
         return new_centroids
 
-    def assign_to_cluster(self, dataset: pd.DataFrame, centroids):   
+    def assign_to_cluster(self, dataset: pd.DataFrame, clustered_dataset: pd.DataFrame, centroids):   
         labels = []     
-        for row, idx in dataset.iterrows():
+        for _, row  in dataset.iterrows():
             point = np.array(row)
-            labels.append(np.argmin(self.__calculate_distance(centroid, point) for centroid in centroids)) # quizas agregar [] si no anda
+            labels.append(int(np.argmin([self.calculate_distance(centroid, point) for centroid in centroids])))
             
-        dataset[CLUSTER_COLUMN] = labels
-        return dataset
+        clustered_dataset[CLUSTER_COLUMN] = labels
+        return
 
-    def __stop_condition(self, stop_epsilon: float) -> bool:
-        distance = self.__calculate_distances(self.centroids, self.new_cetroids)
-        print(distance)
-        return distance < stop_epsilon
+    def ____check_empty_cluster(self, dataset: pd.DataFrame, clustered_dataset: pd.DataFrame, centroids):
+        clustered_dataset = clustered_dataset[CLUSTER_COLUMN]
+        for label in labels:
+            if label not in clustered_dataset:
+                clustered[CLUSTER_COLUMN] = np.argmin([self.calculate_distance(centroid, point) for centroid in centroids])
+
+        return
 
     # Precondition: run agument_dataset once on the dataset
     def __random_assignment_from_space(self, dataset: pd.DataFrame, number_of_clusters):
@@ -99,6 +105,6 @@ class KMeans:
     # must be called before assing_to_cluster
     def augment_dataset(self, dataset: pd.DataFrame):
         copy = dataset.copy()
-        copy.insert(0, CLUSTER_COLUMN, pd.NA)
+        copy.insert(0, CLUSTER_COLUMN, -1)
         return copy
         
