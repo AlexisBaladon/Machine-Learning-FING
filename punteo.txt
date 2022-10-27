@@ -7,6 +7,5 @@ Covarianza
 - Deducir desde los vectores propios el numero de atributos a elegir 
 
 Kmeans
-- Bug de centroides vacios 
-- Eficiencia del algoritmo? El tema de estar copiando siempre el DS
+- Eficiencia del algoritmo? El tema de estar copiando siempre el DS (.copy)
 - Experimentar con los 2 metodos de inicialización
