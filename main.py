@@ -16,6 +16,7 @@ if __name__ == "__main__":
 
     #TODO: tendriamos que hacer silouette con varias SEED
     test = Test()
-    test.test_elbow_method(k_values,df)
-    test.PCA_2D(df)
-    test.PCA_3D(df)
+    test.PCA_graph(df)
+    #test.test_elbow_method(k_values,df)
+    #test.PCA_2D(df)
+    #test.PCA_3D(df)

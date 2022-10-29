@@ -9,6 +9,7 @@ from multiprocessing import Pool
 from sklearn.decomposition import PCA
 import constants
 import pandas as pd
+import numpy as np
 
 global_kmeans = KMeans()
 
@@ -82,37 +83,39 @@ class Test:
 
         return sse
 
-    def PCA_2D(self, df, k = constants.DEFAULT_CLUSTERS, epsilon=constants.STOP_EPSILON):
-        pca = PCA(n_components=2,random_state=constants.DEFAULT_SEED)
-        pca_df = pca.fit_transform(df)
-        pca_df = pd.DataFrame(pca_df, columns=["pca1", "pca2"])
-
-        kmeans = KMeans()
-        centroids = kmeans.k_means(pca_df, k, epsilon, constants.DEFAULT_SEED)
-
-        clustered_df = pca_df.copy()
-        kmeans.assign_to_cluster(pca_df, clustered_df, centroids)
-
-        plt.scatter(clustered_df["pca1"], clustered_df["pca2"], c=clustered_df[constants.CLUSTER_COLUMN])
-        for centroid in centroids:
-            plt.scatter(centroid[0], centroid[1], c="black")
-        plt.show()
-    
-    def PCA_3D(self, df, k = constants.DEFAULT_CLUSTERS, epsilon=constants.STOP_EPSILON):
-        pca = PCA(n_components=3,random_state=constants.DEFAULT_SEED)
-        pca_df = pca.fit_transform(df)
-        pca_df = pd.DataFrame(pca_df, columns=["pca1", "pca2", "pca3"])
-    
-        kmeans = KMeans()
-        centroids = kmeans.k_means(pca_df,k,epsilon,constants.DEFAULT_SEED)
-    
-        clustered_df = pca_df.copy()
-        kmeans.assign_to_cluster(pca_df, clustered_df, centroids)
-            
-        fig = plt.figure()
-        ax = fig.add_subplot(projection='3d')
+    def PCA_graph(self, df, dimensions = 2, number_of_clusters = constants.DEFAULT_CLUSTERS, epsilon=constants.STOP_EPSILON, random_init_method = 'from_cluster', seed = constants.DEFAULT_SEED):
+        pca = PCA(n_components=dimensions,random_state=constants.DEFAULT_SEED)
+        pca.fit(df)
+        kmeans = KMeans(random_init_method=random_init_method, seed=seed)
         
-        ax.scatter(clustered_df["pca1"], clustered_df["pca2"], clustered_df["pca3"], c=clustered_df[constants.CLUSTER_COLUMN])
-        for centroid in centroids:
-            ax.scatter(centroid[0], centroid[1], c="black")
-        plt.show()
+        centroids = kmeans.k_means(df, number_of_clusters, epsilon, seed)
+        clustered_dataset = kmeans.augment_dataset(df)
+        kmeans.assign_to_cluster(df, clustered_dataset, centroids)
+        pca_component = pca.components_
+        
+        transformed_matrix = pca.transform(df).transpose()
+        means = df.mean(axis=0)
+
+        if dimensions == 2:
+            plt.scatter(transformed_matrix[0], transformed_matrix[1], c=clustered_dataset[constants.CLUSTER_COLUMN])
+        
+            for centroid in centroids:
+                centroid = np.dot(pca_component, centroid - means)
+                plt.scatter(centroid[0], centroid[1], c="red")
+            plt.show()
+
+        elif dimensions == 3:
+            fig = plt.figure()
+            ax = fig.add_subplot(projection='3d')
+        
+            ax.scatter(transformed_matrix[0], transformed_matrix[1], transformed_matrix[2], c=clustered_dataset[constants.CLUSTER_COLUMN])
+            for centroid in centroids:
+                centroid = np.dot(pca_component, centroid - means)
+                ax.scatter(centroid[0], centroid[1], centroid[2], c="black")
+            plt.show()
+
+    def PCA_EIGENVALUES(self, df: pd.DataFrame):
+        pca = PCA(n_components=len(df.columns),random_state=constants.DEFAULT_SEED)
+        pca.fit(df)
+        eigen_values = pca.explained_variance_
+        print(eigen_values)

@@ -5,8 +5,7 @@ from constants import DEFAULT_SEED, CLUSTER_COLUMN, ITERATION_THRESHOLD
 import random
 
 class KMeans:
-    def __init__(self, random_init_method = 'from_cluster', seed = DEFAULT_SEED, scale_factor = 1.1):
-        self.scale_factor = scale_factor
+    def __init__(self, random_init_method = 'from_cluster', seed = DEFAULT_SEED):
         self.seed = seed
         if random_init_method == 'from_cluster':
             self.random_assignment = self.__random_assignment_from_cluster
@@ -97,7 +96,7 @@ class KMeans:
 
         for i in df_len:
             scale_vector.append(dataset.iloc[i].max())
-        scale_vector = np.array(scale_vector) * self.scale_factor
+        scale_vector = np.array(scale_vector)
         
         for _ in range(number_of_clusters):
             centroid = []

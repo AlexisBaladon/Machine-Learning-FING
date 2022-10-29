@@ -1,6 +1,6 @@
 import os
 
-DEFAULT_CLUSTERS = 5
+DEFAULT_CLUSTERS = 4
 DEFAULT_SEED = 27
 CLUSTER_COLUMN = "Cluster"
 DATASET_PATH = "./wlb_cities.csv"
