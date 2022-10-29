@@ -8,7 +8,6 @@ Covarianza
 
 Kmeans
 - Eficiencia del algoritmo? El tema de estar copiando siempre el DS (.copy)
-- Borrar scale factor
 
 //- Experimentar con los 2 metodos de inicialización
 

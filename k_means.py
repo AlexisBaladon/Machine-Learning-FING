@@ -81,12 +81,10 @@ class KMeans:
 
     def reassign_empty_cluster(self, dataset, empty_cluster_index):
         for centroid_index in empty_cluster_index:
-            distance = [self.calculate_distance(
-                self.centroids[centroid_index],
-                 np.array(row)) for _, row in dataset.iterrows()]
-            self.centroids[centroid_index] = np.array(
-                dataset.iloc[int(
-                    np.argmin(distance))])
+
+            distance = [self.calculate_distance(self.centroids[centroid_index], np.array(row)) for _, row in dataset.iterrows()]
+
+            self.centroids[centroid_index] = np.array(dataset.iloc[int(np.argmin(distance))])
 
     # Precondition: run agument_dataset once on the dataset
     def __random_assignment_from_space(self, dataset: pd.DataFrame, number_of_clusters):
