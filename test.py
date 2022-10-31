@@ -114,8 +114,43 @@ class Test:
                 ax.scatter(centroid[0], centroid[1], centroid[2], c="black")
             plt.show()
 
-    def PCA_EIGENVALUES(self, df: pd.DataFrame):
+ 
+    def PCA_eigen_values(self, df: pd.DataFrame):
         pca = PCA(n_components=len(df.columns),random_state=constants.DEFAULT_SEED)
         pca.fit(df)
         eigen_values = pca.explained_variance_
-        print(eigen_values)
+
+        #Logarithmic scale
+        _, ax = plt.subplots()
+        ax.set_yscale('log')
+
+        plt.bar(range(len(eigen_values)), eigen_values)
+        return
+
+    def correlation_matrix(self, df: pd.DataFrame):
+        figure_number = plt.figure(figsize=(6, 10)).number
+        plt.matshow(df.corr().abs(), fignum=figure_number)
+        plt.xticks(range(df.shape[1]), df.columns, fontsize=11, rotation=90)
+        plt.yticks(range(df.shape[1]), df.columns, fontsize=11)
+        plt.colorbar()
+        plt.show()
+        return
+
+    def covariance_matrix(self, df: pd.DataFrame):
+        figure_number = plt.figure(figsize=(6, 10)).number
+        plt.matshow(df.cov().abs(), fignum=figure_number)
+        plt.xticks(range(df.shape[1]), df.columns, fontsize=11, rotation=90)
+        plt.yticks(range(df.shape[1]), df.columns, fontsize=11)
+        plt.colorbar()
+        plt.show()
+        return
+
+    def find_city_idx(self, original_df, df, city = "Montevideo", country = "Uruguay"):
+        query_df = original_df.query("city == @city and country == @country")
+        idx = query_df.index[0]
+        return idx
+
+    def find_city_df(self, original_df, df, city = "Montevideo", country = "Uruguay"):
+        idx = self.find_city_idx(original_df, df, city, country)
+        return df.iloc[idx]
+    
