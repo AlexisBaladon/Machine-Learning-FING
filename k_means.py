@@ -35,7 +35,7 @@ class KMeans:
             self.centroids = self.new_centroids
             empty_cluster = True
             while empty_cluster:
-                empty_cluster_index = self.assign_to_cluster(dataset, clustered_dataset, self.centroids)
+                empty_cluster_index, _ = self.assign_to_cluster(dataset, clustered_dataset, self.centroids)
                 if len(empty_cluster_index) > 0:   
                     self.reassign_empty_cluster(dataset, empty_cluster_index )
                 else:
@@ -77,7 +77,7 @@ class KMeans:
             centroids_count[cluster] += 1
         empty_cluster_index = [i for i in range(len(centroids)) if centroids_count[i] == 0]
         clustered_dataset[CLUSTER_COLUMN] = labels 
-        return empty_cluster_index
+        return empty_cluster_index, labels
 
     def reassign_empty_cluster(self, dataset, empty_cluster_index):
         for centroid_index in empty_cluster_index:

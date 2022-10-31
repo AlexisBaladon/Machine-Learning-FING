@@ -41,12 +41,12 @@ class Test:
         return avg/constants.AMOUNT_SEED_TESTS
 
     def get_silhouette_parallel(self, df, stop_epsilon, k):
-        kmeans = KMeans()
         avg = 0 
         for i in range(constants.AMOUNT_SEED_TESTS):
+            kmeans = KMeans()
             k_centroids = kmeans.k_means(df, k, stop_epsilon, seed = i)
-            clustered_dataset = kmeans.augment_dataset(df, clustered_dataset, k_centroids)
-            labels = kmeans.assign_to_cluster(df, clustered_dataset, k_centroids)
+            clustered_dataset = kmeans.augment_dataset(df)
+            _, labels = kmeans.assign_to_cluster(df, clustered_dataset, k_centroids)
             avg += silhouette_score(df, labels, metric="euclidean") #TODO: labels
         return avg/constants.AMOUNT_SEED_TESTS
 
@@ -83,7 +83,7 @@ class Test:
 
         return sse
 
-    def PCA_graph(self, df, dimensions = 2, number_of_clusters = constants.DEFAULT_CLUSTERS, epsilon=constants.STOP_EPSILON, random_init_method = 'from_cluster', seed = constants.DEFAULT_SEED):
+    def PCA_graph(self, df, original_df, dimensions = 2, number_of_clusters = constants.DEFAULT_CLUSTERS, epsilon=constants.STOP_EPSILON, random_init_method = 'from_cluster', seed = constants.DEFAULT_SEED):
         pca = PCA(n_components=dimensions,random_state=constants.DEFAULT_SEED)
         pca.fit(df)
         kmeans = KMeans(random_init_method=random_init_method, seed=seed)
@@ -93,27 +93,36 @@ class Test:
         kmeans.assign_to_cluster(df, clustered_dataset, centroids)
         pca_component = pca.components_
         
-        transformed_matrix = pca.transform(df).transpose()
+        transformed_matrix = pca.transform(df)
+        transposed_matrix = transformed_matrix.transpose()
         means = df.mean(axis=0)
 
+        montevideo_idx = self.find_city_idx(original_df, df)
+        montevideo_x = transformed_matrix[montevideo_idx][0]
+        montevideo_y = transformed_matrix[montevideo_idx][1]
+
         if dimensions == 2:
-            plt.scatter(transformed_matrix[0], transformed_matrix[1], c=clustered_dataset[constants.CLUSTER_COLUMN])
+            plt.scatter(transposed_matrix[0], transposed_matrix[1], c=clustered_dataset[constants.CLUSTER_COLUMN])
         
             for centroid in centroids:
                 centroid = np.dot(pca_component, centroid - means)
                 plt.scatter(centroid[0], centroid[1], c="red")
-            plt.show()
+
+            plt.scatter(montevideo_x, montevideo_y, marker="s", c="black")
 
         elif dimensions == 3:
             fig = plt.figure()
             ax = fig.add_subplot(projection='3d')
         
-            ax.scatter(transformed_matrix[0], transformed_matrix[1], transformed_matrix[2], c=clustered_dataset[constants.CLUSTER_COLUMN])
+            ax.scatter(transposed_matrix[0], transposed_matrix[1], transposed_matrix[2], c=clustered_dataset[constants.CLUSTER_COLUMN])
             for centroid in centroids:
                 centroid = np.dot(pca_component, centroid - means)
-                ax.scatter(centroid[0], centroid[1], centroid[2], c="black")
-            plt.show()
+                ax.scatter(centroid[0], centroid[1], centroid[2], c="red")
+            
+            montevideo_z = transformed_matrix[montevideo_idx][2]
+            ax.scatter(montevideo_x, montevideo_y, montevideo_z, marker="s", c="black")
 
+        plt.show()
  
     def PCA_eigen_values(self, df: pd.DataFrame):
         pca = PCA(n_components=len(df.columns),random_state=constants.DEFAULT_SEED)
@@ -145,12 +154,12 @@ class Test:
         plt.show()
         return
 
-    def find_city_idx(self, original_df, df, city = "Montevideo", country = "Uruguay"):
+    def find_city_idx(self, original_df, city = "Montevideo", country = "Uruguay"):
         query_df = original_df.query("city == @city and country == @country")
         idx = query_df.index[0]
         return idx
 
     def find_city_df(self, original_df, df, city = "Montevideo", country = "Uruguay"):
-        idx = self.find_city_idx(original_df, df, city, country)
+        idx = self.find_city_idx(original_df, city, country)
         return df.iloc[idx]
     

@@ -12,12 +12,11 @@ if __name__ == "__main__":
     df = preprocess(original_df)
 
     kmeans = k_means.KMeans()
-    k_values = [x for x in range(1,constants.MAX_K_PLUS_1)]
+    k_values = [x for x in range(2,constants.MAX_K_PLUS_1)]
 
     #TODO: tendriamos que hacer silouette con varias SEED
     test = Test()
-    print(test.find_city_df(original_df, df, "Montevideo", "Uruguay"))
-    test.PCA_graph(df)
-    #test.test_elbow_method(k_values,df)
-    #test.PCA_2D(df)
-    #test.PCA_3D(df)
+    #print(test.find_city_df(original_df, "Montevideo", "Uruguay"))
+    test.PCA_graph(df,original_df,dimensions=2,number_of_clusters=2)
+    test.test_elbow_method(k_values,df)
+    test.test_silhouette(k_values, df)
