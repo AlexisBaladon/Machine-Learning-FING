@@ -43,6 +43,7 @@ class Test:
     def get_silhouette_parallel(self, df, stop_epsilon, k):
         avg = 0 
         for i in range(constants.AMOUNT_SEED_TESTS):
+            print(i,k)
             kmeans = KMeans()
             k_centroids = kmeans.k_means(df, k, stop_epsilon, seed = i)
             clustered_dataset = kmeans.augment_dataset(df)
@@ -100,6 +101,7 @@ class Test:
         montevideo_idx = self.find_city_idx(original_df, df)
         montevideo_x = transformed_matrix[montevideo_idx][0]
         montevideo_y = transformed_matrix[montevideo_idx][1]
+        plt.text(montevideo_x, montevideo_y,'Montevideo')
 
         if dimensions == 2:
             plt.scatter(transposed_matrix[0], transposed_matrix[1], c=clustered_dataset[constants.CLUSTER_COLUMN])
@@ -124,19 +126,19 @@ class Test:
 
         plt.show()
  
-    def PCA_eigen_values(self, df: pd.DataFrame):
+    def PCA_eigen_values(self, df: pd.DataFrame, scale='log'):
         pca = PCA(n_components=len(df.columns),random_state=constants.DEFAULT_SEED)
         pca.fit(df)
         eigen_values = pca.explained_variance_
 
         #Logarithmic scale
         _, ax = plt.subplots()
-        ax.set_yscale('log')
+        ax.set_yscale(scale)
 
         plt.bar(range(len(eigen_values)), eigen_values)
         return
 
-    def correlation_matrix(self, df: pd.DataFrame):
+    def abs_correlation_matrix(self, df: pd.DataFrame):
         figure_number = plt.figure(figsize=(6, 10)).number
         plt.matshow(df.corr().abs(), fignum=figure_number)
         plt.xticks(range(df.shape[1]), df.columns, fontsize=11, rotation=90)
@@ -145,7 +147,16 @@ class Test:
         plt.show()
         return
 
-    def covariance_matrix(self, df: pd.DataFrame):
+    def cutpoint_abs_correlation_matrix(self, df: pd.DataFrame, cutpoint = 0.5):
+        figure_number = plt.figure(figsize=(6, 10)).number
+        plt.matshow(df.corr().abs().applymap(lambda x: 0 if x < cutpoint else 1), fignum=figure_number)
+        plt.xticks(range(df.shape[1]), df.columns, fontsize=11, rotation=90)
+        plt.yticks(range(df.shape[1]), df.columns, fontsize=11)
+        plt.colorbar()
+        plt.show()
+        return
+
+    def abs_covariance_matrix(self, df: pd.DataFrame):
         figure_number = plt.figure(figsize=(6, 10)).number
         plt.matshow(df.cov().abs(), fignum=figure_number)
         plt.xticks(range(df.shape[1]), df.columns, fontsize=11, rotation=90)

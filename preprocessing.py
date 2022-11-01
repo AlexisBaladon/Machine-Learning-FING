@@ -25,9 +25,14 @@ def preprocess(dataset, shouldNormalize = False):
     #columns_to_remove=["city", "country", "pos_2022", "pos_2021"]
     
     #columns_to_remove = ["total_score", "city", "country", "pos_2022", "pos_2021", "inclusivity_and_tolerance", "air_quality"]
-
-    columns_to_remove = ["total_score", "city", "country", "pos_2022", "pos_2021", "covid_impact", "covid_support", "inclusivity_and_tolerance", "air_quality"]
+    #columns_to_remove = ["total_score", "city", "country", "pos_2022", "pos_2021", "covid_impact", "covid_support", "inclusivity_and_tolerance", "air_quality"]
+    columns_to_remove = ["total_score", "city", "country", "pos_2022", "pos_2021", "access_to_mental_healthcare", "minimum_vacations_offered", "covid_impact", "inclusivity_and_tolerance"]
     dataset = remove_columns(dataset, columns_to_remove)
     if shouldNormalize:
         dataset = normalize(dataset)
+    return dataset
+
+def minimal_preprocess(dataset):
+    columns_to_remove = ["total_score", "city", "country", "pos_2022", "pos_2021"]
+    dataset = remove_columns(dataset, columns_to_remove)
     return dataset
