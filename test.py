@@ -11,8 +11,6 @@ import constants
 import pandas as pd
 import numpy as np
 
-global_kmeans = KMeans()
-
 class Test:
     def __init__(self):
         pass
@@ -43,7 +41,6 @@ class Test:
     def get_silhouette_parallel(self, df, stop_epsilon, k):
         avg = 0 
         for i in range(constants.AMOUNT_SEED_TESTS):
-            print(i,k)
             kmeans = KMeans()
             k_centroids = kmeans.k_means(df, k, stop_epsilon, seed = i)
             clustered_dataset = kmeans.augment_dataset(df)
@@ -72,15 +69,16 @@ class Test:
         plt.show()
 
     def __loss_function(self, dataset, centroids):
-        clustered_ds = global_kmeans.augment_dataset(dataset)
-        global_kmeans.assign_to_cluster(dataset, clustered_ds, centroids)
+        kmeans = KMeans()
+        clustered_ds = kmeans.augment_dataset(dataset)
+        kmeans.assign_to_cluster(dataset, clustered_ds, centroids)
 
         sse = 0
         for idx, row in clustered_ds.iterrows():
             centroid_idx = int(row[constants.CLUSTER_COLUMN])
             centroid = centroids[centroid_idx]
             point = dataset.iloc[idx]
-            sse += global_kmeans.calculate_distance(centroid, point)
+            sse += kmeans.calculate_distance(centroid, point)
 
         return sse
 
@@ -126,10 +124,12 @@ class Test:
 
         plt.show()
  
-    def PCA_eigen_values(self, df: pd.DataFrame, scale='log'):
+    def PCA_eigen_values(self, df: pd.DataFrame, scale='log', drop_first = False):
         pca = PCA(n_components=len(df.columns),random_state=constants.DEFAULT_SEED)
         pca.fit(df)
         eigen_values = pca.explained_variance_
+        if drop_first:
+            eigen_values = eigen_values[1:]
 
         #Logarithmic scale
         _, ax = plt.subplots()

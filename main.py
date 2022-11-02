@@ -17,6 +17,6 @@ if __name__ == "__main__":
     #TODO: tendriamos que hacer silouette con varias SEED
     test = Test()
     #print(test.find_city_df(original_df, "Montevideo", "Uruguay"))
-    test.PCA_graph(df,original_df,dimensions=2,number_of_clusters=2)
-    #test.test_elbow_method(k_values,df)
     test.test_silhouette(k_values, df)
+    test.test_elbow_method(k_values, df)
+    test.PCA_graph(df,original_df,dimensions=2,number_of_clusters=2)
