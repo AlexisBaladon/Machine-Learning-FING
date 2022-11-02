@@ -96,10 +96,15 @@ class Test:
         transposed_matrix = transformed_matrix.transpose()
         means = df.mean(axis=0)
 
-        montevideo_idx = self.find_city_idx(original_df, df)
+        montevideo_idx = self.find_city_idx(original_df)
         montevideo_x = transformed_matrix[montevideo_idx][0]
         montevideo_y = transformed_matrix[montevideo_idx][1]
         plt.text(montevideo_x, montevideo_y,'Montevideo')
+
+        Bern_idx = self.find_city_idx(original_df, city="Bern", country="Switzerland")
+        Bern_x = transformed_matrix[Bern_idx][0]
+        Bern_y = transformed_matrix[Bern_idx][1]
+        plt.text(Bern_x, Bern_y, 'Bern')
 
         if dimensions == 2:
             plt.scatter(transposed_matrix[0], transposed_matrix[1], c=clustered_dataset[constants.CLUSTER_COLUMN])
@@ -109,6 +114,7 @@ class Test:
                 plt.scatter(centroid[0], centroid[1], c="red")
 
             plt.scatter(montevideo_x, montevideo_y, marker="s", c="black")
+            plt.scatter(Bern_x, Bern_y, marker="s", c="black")
 
         elif dimensions == 3:
             fig = plt.figure()
@@ -174,3 +180,14 @@ class Test:
         idx = self.find_city_idx(original_df, city, country)
         return df.iloc[idx]
     
+    def get_cities_in_the_same_cluster(self, original_df, df, city = "Montevideo", country = "Uruguay", clusters=2):
+        kmeans = KMeans()
+        clustered_df = kmeans.augment_dataset(df)
+        centroids = kmeans.k_means(df, clusters, constants.STOP_EPSILON)
+        kmeans.assign_to_cluster(df, clustered_df, centroids)
+        
+        city_idx = self.find_city_idx(original_df, city, country)
+        city_cluster = clustered_df[constants.CLUSTER_COLUMN][city_idx]
+        # clustered_df[clustered_df[target_column] == value] 
+        query_df_idxs = clustered_df[clustered_df[constants.CLUSTER_COLUMN] == city_cluster].index
+        return original_df["city"][query_df_idxs]

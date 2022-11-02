@@ -32,7 +32,9 @@ def preprocess(dataset, shouldNormalize = False):
         dataset = normalize(dataset)
     return dataset
 
-def minimal_preprocess(dataset):
+def minimal_preprocess(dataset, shouldNormalize = False):
     columns_to_remove = ["total_score", "city", "country", "pos_2022", "pos_2021"]
     dataset = remove_columns(dataset, columns_to_remove)
+    if shouldNormalize:
+        dataset = normalize(dataset)
     return dataset
