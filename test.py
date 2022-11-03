@@ -99,12 +99,10 @@ class Test:
         montevideo_idx = self.find_city_idx(original_df)
         montevideo_x = transformed_matrix[montevideo_idx][0]
         montevideo_y = transformed_matrix[montevideo_idx][1]
-        plt.text(montevideo_x, montevideo_y,'Montevideo')
 
-        Bern_idx = self.find_city_idx(original_df, city="Bern", country="Switzerland")
-        Bern_x = transformed_matrix[Bern_idx][0]
-        Bern_y = transformed_matrix[Bern_idx][1]
-        plt.text(Bern_x, Bern_y, 'Bern')
+        bern_idx = self.find_city_idx(original_df, city="Bern", country="Switzerland")
+        bern_x = transformed_matrix[bern_idx][0]
+        bern_y = transformed_matrix[bern_idx][1]
 
         if dimensions == 2:
             plt.scatter(transposed_matrix[0], transposed_matrix[1], c=clustered_dataset[constants.CLUSTER_COLUMN])
@@ -114,7 +112,9 @@ class Test:
                 plt.scatter(centroid[0], centroid[1], c="red")
 
             plt.scatter(montevideo_x, montevideo_y, marker="s", c="black")
-            plt.scatter(Bern_x, Bern_y, marker="s", c="black")
+            plt.scatter(bern_x, bern_y, marker="s", c="black")
+            plt.text(bern_x, bern_y, 'Bern')
+            plt.text(montevideo_x, montevideo_y, 'Montevideo')
 
         elif dimensions == 3:
             fig = plt.figure()
@@ -126,7 +126,10 @@ class Test:
                 ax.scatter(centroid[0], centroid[1], centroid[2], c="red")
             
             montevideo_z = transformed_matrix[montevideo_idx][2]
+            bern_z = transformed_matrix[bern_idx][2]
             ax.scatter(montevideo_x, montevideo_y, montevideo_z, marker="s", c="black")
+            ax.text(montevideo_x, montevideo_y, montevideo_z, 'Montevideo')
+            ax.text(bern_x, bern_y, bern_z, 'Bern')
 
         plt.show()
  
