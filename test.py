@@ -45,7 +45,7 @@ class Test:
             k_centroids = kmeans.k_means(df, k, stop_epsilon, seed = i)
             clustered_dataset = kmeans.augment_dataset(df)
             _, labels = kmeans.assign_to_cluster(df, clustered_dataset, k_centroids)
-            avg += silhouette_score(df, labels, metric="euclidean") #TODO: labels
+            avg += silhouette_score(df, labels, metric="euclidean")
         return avg/constants.AMOUNT_SEED_TESTS
 
     def __graph_elbow_method(self, values_k, values_y):
@@ -104,6 +104,10 @@ class Test:
         bern_x = transformed_matrix[bern_idx][0]
         bern_y = transformed_matrix[bern_idx][1]
 
+        oslo_idx = self.find_city_idx(original_df, city="Oslo", country="Norway")
+        oslo_x = transformed_matrix[oslo_idx][0]
+        oslo_y = transformed_matrix[oslo_idx][1]
+
         if dimensions == 2:
             plt.scatter(transposed_matrix[0], transposed_matrix[1], c=clustered_dataset[constants.CLUSTER_COLUMN])
         
@@ -113,8 +117,10 @@ class Test:
 
             plt.scatter(montevideo_x, montevideo_y, marker="s", c="black")
             plt.scatter(bern_x, bern_y, marker="s", c="black")
+            plt.scatter(oslo_x, oslo_y, marker="s", c="black")
             plt.text(bern_x, bern_y, 'Bern')
             plt.text(montevideo_x, montevideo_y, 'Montevideo')
+            plt.text(oslo_x, oslo_y, 'Oslo')
 
         elif dimensions == 3:
             fig = plt.figure()
@@ -127,9 +133,13 @@ class Test:
             
             montevideo_z = transformed_matrix[montevideo_idx][2]
             bern_z = transformed_matrix[bern_idx][2]
+            oslo_z = transformed_matrix[oslo_idx][2]
             ax.scatter(montevideo_x, montevideo_y, montevideo_z, marker="s", c="black")
             ax.text(montevideo_x, montevideo_y, montevideo_z, 'Montevideo')
+            ax.scatter(bern_x, bern_y, bern_z, marker="s", c="black")
             ax.text(bern_x, bern_y, bern_z, 'Bern')
+            ax.scatter(oslo_x, oslo_y, oslo_z, marker="s", c="black")
+            ax.text(oslo_x, oslo_y, oslo_z, 'Oslo')
 
         plt.show()
  
