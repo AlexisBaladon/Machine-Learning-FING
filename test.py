@@ -191,6 +191,5 @@ class Test:
         
         city_idx = self.find_city_idx(original_df, city, country)
         city_cluster = clustered_df[constants.CLUSTER_COLUMN][city_idx]
-        # clustered_df[clustered_df[target_column] == value] 
         query_df_idxs = clustered_df[clustered_df[constants.CLUSTER_COLUMN] == city_cluster].index
         return original_df["city"][query_df_idxs]

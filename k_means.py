@@ -18,12 +18,6 @@ class KMeans:
         self.random_generator.seed(seed)
         self.new_centroids = []
 
-# Si cluster c sin asignar
-# Asignar a un punto que estaba en i-1 a c
-# Recalcular asignaciones
-
-
-
     def k_means(self, dataset: pd.DataFrame, number_of_clusters: int, stop_epsilon: float, seed = None):
         if seed != None:
             self.random_generator.seed(seed)
