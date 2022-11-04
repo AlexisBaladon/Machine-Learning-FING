@@ -15,22 +15,22 @@ class Test:
     def __init__(self):
         pass
 
-    def test_elbow_method(self, k_values, dataset, cpu_count=os.cpu_count()):
+    def test_elbow_method(self, k_values, dataset):
         k_avgs = []
-        partial_application = partial(self.get_mean_parallel,dataset, constants.STOP_EPSILON)
-        with mp.Pool(cpu_count) as pool:
-            k_avgs = pool.map(partial_application, k_values)
+        partial_application = partial(self.get_mean,dataset, constants.STOP_EPSILON)
+        for k in k_values:
+            k_avgs.append(partial_application(k))
         self.__graph_elbow_method(k_values, k_avgs)
         return
 
-    def test_silhouette(self, k_values, dataset, cpu_count=os.cpu_count()):
+    def test_silhouette(self, k_values, dataset):
         k_avgs = []
-        partial_application = partial(self.get_silhouette_parallel, dataset, constants.STOP_EPSILON)
-        with mp.Pool(cpu_count) as pool:
-            k_avgs = pool.map(partial_application, k_values)
+        partial_application = partial(self.get_silhouette, dataset, constants.STOP_EPSILON)
+        for k in k_values:
+            k_avgs.append(partial_application(k))
         self.__graph_silhouette(k_values, k_avgs)    
     
-    def get_mean_parallel(self, df, stop_epsilon, k):
+    def get_mean(self, df, stop_epsilon, k):
         kmeans = KMeans()
         avg = 0 
         for i in range(constants.AMOUNT_SEED_TESTS):
@@ -38,7 +38,7 @@ class Test:
             avg += self.__loss_function(df, k_centroid)
         return avg/constants.AMOUNT_SEED_TESTS
 
-    def get_silhouette_parallel(self, df, stop_epsilon, k):
+    def get_silhouette(self, df, stop_epsilon, k):
         avg = 0 
         for i in range(constants.AMOUNT_SEED_TESTS):
             kmeans = KMeans()
