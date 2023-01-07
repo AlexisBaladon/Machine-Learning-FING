@@ -1,0 +1,8 @@
+{
+    "m_estimator": [1],
+    "refresh" : true,
+    "max_email_len": [null],
+    "max_dataset_size": [null],
+    "stem" : [true],
+    "count_duplicates": [true]
+}
