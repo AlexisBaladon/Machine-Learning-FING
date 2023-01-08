@@ -28,12 +28,11 @@ Son utilizadas las librerías más populares dentro de la ciencia de datos:
 
 ![Decision Tree](./readme/labs/tree_report.png)
 
-- Implementación de naive bayes para identificación de correos de spam utilizando técnicas de stemmin, tokenización y eliminación de stopwords.
+- Implementación de naive bayes para identificación de correos de spam utilizando técnicas de stemming, tokenización y eliminación de stopwords.
 
-![scikit-learn](./readme/labs/spam.png)
-![scikit-learn](./readme/labs/mail_length.png)
+![mail-length](./readme/labs/mail_length.png)
 
 - Implementación del algoritmo k-means y evaluación mediante el método del codo, el coeficiente de silueta y PCA.
 
-![scikit-learn](./readme/labs/pca.png)
+![pca](./readme/labs/pca.png)
 
