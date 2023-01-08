@@ -1,6 +1,3 @@
-from turtle import distance
-
-
 class Parameters:
     def __init__(self):
         self.constant_weight = None

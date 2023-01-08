@@ -30,7 +30,7 @@ print (f"\n\n********** Testing over {args.env} for {args.runs} runs with {args.
 
 # Create the environment
 seed = None if args.seed == -1 else args.seed
-environment = gym.make(args.env, seed=seed, render_mode="human")
+environment = gym.make(args.env, render_mode="human")
 environment.max_steps = args.steps
 environment = wrappers.SymbolicObsWrapper(environment)
 
@@ -45,12 +45,12 @@ trained_model.load()
 variables = Variables(environment, m_kargs["global_vision"], m_kargs["vision_range"])
 cant = 0
 for i_run in range(0, args.runs):
-    obs = environment.reset()
+    obs = environment.reset()[0]
     reward = 0
 
     for i_step in range(0,args.steps):
         next_action = trained_model.action(obs)
-        obs, reward, done, info = environment.step(next_action)
+        obs, reward, done, info, _ = environment.step(next_action)
 
         if args.gui:
             environment.render()

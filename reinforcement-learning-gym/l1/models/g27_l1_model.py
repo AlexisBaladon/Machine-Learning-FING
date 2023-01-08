@@ -99,12 +99,12 @@ class G27L1Model(L1Model):
             if idx == 2:
                 return self.environment.actions.left
 
-
     def evaluate_pos(self, obs, pos, dir, isMovingForward):
         """
         Evaluates a certain position according to its direction
         and whether the agent is moving forward or not
         """
+    
         values = self.vars.vectorize(obs["image"], isMovingForward, pos, dir)
         weigths = self.params.vectorize()
         if(values[9] == 1):
