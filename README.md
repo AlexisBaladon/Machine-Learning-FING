@@ -1,23 +1,3 @@
-[**Proyectos de ML**] Los algoritmos implementados incluyen:
-
-# Librerías
-
-Son utilizadas las librerías más populares dentro de la ciencia de datos:
-
-- [scikit-learn] - Librería de aprendizaje automático.
-- [numpy] - Librería de álgebra lineal.
-- [pandas] - Librería de manipulación de datos.
-- [matplotlib] - Librería de visualización de datos.
-- [nltk] - Librería de procesamiento de lenguaje natural.
-- [gym] - Librería de aprendizaje por refuerzos.
-
-![scikit-learn](./readme/icons/scikit.png)
-![numpy](./readme/icons/numpy.png)
-![pandas](./readme/icons/pandas.png)
-![matplotlib](./readme/icons/matplotlib.png)
-![nltk](./readme/icons/nltk.png)
-![gym](./readme/icons/gym.png)
-
 # Proyectos
 
 ### Aprendizaje por refuerzos:
@@ -40,3 +20,22 @@ Son utilizadas las librerías más populares dentro de la ciencia de datos:
 
 ![pca](./readme/labs/pca.png)
 
+[**Proyectos de ML**] Los algoritmos implementados incluyen:
+
+# Librerías
+
+Son utilizadas las librerías más populares dentro de la ciencia de datos:
+
+- [scikit-learn] - Librería de aprendizaje automático.
+- [numpy] - Librería de álgebra lineal.
+- [pandas] - Librería de manipulación de datos.
+- [matplotlib] - Librería de visualización de datos.
+- [nltk] - Librería de procesamiento de lenguaje natural.
+- [gym] - Librería de aprendizaje por refuerzos.
+
+![scikit-learn](./readme/icons/scikit.png)
+![numpy](./readme/icons/numpy.png)
+![pandas](./readme/icons/pandas.png)
+![matplotlib](./readme/icons/matplotlib.png)
+![nltk](./readme/icons/nltk.png)
+![gym](./readme/icons/gym.png)
