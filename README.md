@@ -1,5 +1,3 @@
-# Proyectos
-
 # Librerías
 
 Son utilizadas las librerías más populares dentro de la ciencia de datos:
@@ -17,6 +15,8 @@ Son utilizadas las librerías más populares dentro de la ciencia de datos:
 ![matplotlib](./readme/icons/matplotlib.png)
 ![nltk](./readme/icons/nltk.png)
 ![gym](./readme/icons/gym.png)
+
+# Proyectos
 
 ### Aprendizaje no supervizado (K-means):
 - Implementación del algoritmo k-means y evaluación mediante el método del codo, el coeficiente de silueta y PCA.
