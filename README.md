@@ -1,13 +1,13 @@
-# Librerías
+# Libraries
 
-Son utilizadas las librerías más populares dentro de la ciencia de datos:
+Using the most popular libraries in data science:
 
-- [scikit-learn] - Librería de aprendizaje automático.
-- [numpy] - Librería de álgebra lineal.
-- [pandas] - Librería de manipulación de datos.
-- [matplotlib] - Librería de visualización de datos.
-- [nltk] - Librería de procesamiento de lenguaje natural.
-- [gym] - Librería de aprendizaje por refuerzos.
+- [scikit-learn] - Machine Learning Algorithms and helper methods.
+- [numpy] - Simplifies linear algebra operations using C code for increased efficiency.
+- [pandas] -  Library for structured data manipulation.
+- [matplotlib] - Visualization functionalities for data analysis.
+- [nltk] - Natural Language Processing tool.
+- [gym] - Reinforcement Learning applications.
 
 ![scikit-learn](./readme/icons/scikit.png)
 ![numpy](./readme/icons/numpy.png)
@@ -16,28 +16,25 @@ Son utilizadas las librerías más populares dentro de la ciencia de datos:
 ![nltk](./readme/icons/nltk.png)
 ![gym](./readme/icons/gym.png)
 
-# Proyectos
+# Projects
 
-### Aprendizaje no supervizado (K-means):
+### Unsupervised Learning (K-means):
 - Implementación del algoritmo k-means y evaluación mediante el método del codo, el coeficiente de silueta y PCA.
 
 ![pca](./readme/labs/pca.png)
 
-[**Proyectos de ML**] Los algoritmos implementados incluyen:
-
-### Aprendizaje por refuerzos:
-- Entrenar mediante aprendizaje por refuerzos a un agente del juego mini-grid.
+### Reinforcement Learning:
+- Train an egent from the mini-grid game through reinforcement learning
 
 ![minigrid](./readme/labs/minigrid.gif)
 
-### Aprendizaje supervizado (Árboles de decisión):
-- Implementación de un árbol de decisión para atributos continuos y aplicación a un problema real.
+### Supervised Learning (Decision Trees):
+- Implementation of a decision tree for continuous attributes and application to a real problem.
 
 ![Decision Tree](./readme/labs/tree_report.png)
 
-### Aprendizaje supervizado (Naive Bayes para texto):
-- Implementación de naive bayes para identificación de correos de spam utilizando técnicas de stemming, tokenización y eliminación de stopwords.
+### Supervised Learning (Naive Bayes for text):
+- 
+Implementation of naive bayes to identify spam emails using stemming, tokenization and stopword elimination techniques.
 
 ![mail-length](./readme/labs/mail_length.png)
-
-
