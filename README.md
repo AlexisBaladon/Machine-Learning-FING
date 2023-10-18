@@ -19,7 +19,7 @@ Using the most popular libraries in data science:
 # Projects
 
 ### Unsupervised Learning (K-means):
-- Implementación del algoritmo k-means y evaluación mediante el método del codo, el coeficiente de silueta y PCA.
+- Implementation of the k-means algorithm and evaluation using the elbow method, the silhouette coefficient and PCA.
 
 ![pca](./readme/labs/pca.png)
 
