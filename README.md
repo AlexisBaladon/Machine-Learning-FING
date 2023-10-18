@@ -29,12 +29,11 @@ Using the most popular libraries in data science:
 ![minigrid](./readme/labs/minigrid.gif)
 
 ### Supervised Learning (Decision Trees):
-- Implementation of a decision tree for continuous attributes and application to a real problem.
+- Implementation of a decision tree for continuous attributes and application to a real problem with a heavily unbalanced dataset.
 
 ![Decision Tree](./readme/labs/tree_report.png)
 
 ### Supervised Learning (Naive Bayes for text):
-- 
-Implementation of naive bayes to identify spam emails using stemming, tokenization and stopword elimination techniques.
+- Implementation of naive bayes to identify spam emails using stemming, tokenization and stopword elimination techniques.
 
 ![mail-length](./readme/labs/mail_length.png)
