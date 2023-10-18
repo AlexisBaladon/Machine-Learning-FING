@@ -24,7 +24,7 @@ Using the most popular libraries in data science:
 ![pca](./readme/labs/pca.png)
 
 ### Reinforcement Learning:
-- Train an egent from the mini-grid game through reinforcement learning
+- Train an agent from the mini-grid game through reinforcement learning
 
 ![minigrid](./readme/labs/minigrid.gif)
 
